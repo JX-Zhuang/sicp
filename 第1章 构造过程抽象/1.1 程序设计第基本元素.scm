@@ -52,3 +52,35 @@
 ; (test 0 (p))
 ; 正则序：完全展开而后规约
 ; 应用序：先求值参数而后应用
+; 1.1.7
+; (define (sqrt-iter guess x)
+;     (if (good-enough? guess x)
+;     guess
+;     (sqrt-iter (improve guess x)
+;     x)))
+; (define (improve guess x)
+;     (average guess (/ x guess)))
+; (define (average x y)
+;     (/ (+ x y) 2))
+; (define (good-enough? guess x)
+;     (< (abs (- (square guess) x)) 0.001))
+; (define (sqrt x)
+;     (sqrt-iter 1.0 x))
+
+
+
+(define (sqrt-iter guess x)
+    (if(good-enough guess x)
+        guess
+    (sqrt-iter (improve guess x) x)))
+(define (improve guess x)
+    (average guess (/ x guess)))
+(define (good-enough guess x)
+    (< (abs (- (square guess) x)) 0.001))
+(define (average x y)
+    (/ (+ x y) 2))
+(define (sqrt x)
+    (sqrt-iter 1.0 x))
+
+(sqrt 9)
+(sqrt (+ 100 37))
