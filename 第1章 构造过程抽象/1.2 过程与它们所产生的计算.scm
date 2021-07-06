@@ -68,3 +68,15 @@
           ((= kinds-of-coins 4) 25)
           ((= kinds-of-coins 5) 50)))
 (count-change 100)
+(define (f n)
+    (if (< n 3) n
+        (+ (f (- n 1)) (f (- n 2)) (f (- n 3)) )
+    ))
+
+(define (f n)
+    (define (f-item a b count)
+        (if (= count 0) a
+            (f-item () () (- count 1))
+        )))
+
+(f 5)
