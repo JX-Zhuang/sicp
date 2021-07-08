@@ -50,6 +50,8 @@
 (fib 0)
 (fib 1)
 (fib 2)
+(fib 5)
+(fib 6)
 
 (define (count-change amount)
     (cc amount 5))
@@ -68,15 +70,26 @@
           ((= kinds-of-coins 4) 25)
           ((= kinds-of-coins 5) 50)))
 (count-change 100)
-(define (f n)
+(define (f1 n)
     (if (< n 3) n
-        (+ (f (- n 1)) (f (- n 2)) (f (- n 3)) )
+        (+ (f1 (- n 1)) (f1 (- n 2)) (f1 (- n 3)) )
     ))
 
 (define (f n)
-    (define (f-item a b count)
-        (if (= count 0) a
-            (f-item () () (- count 1))
-        )))
-
-(f 5)
+    (define (f-item a b c count)
+       (cond ((= count 0) c)
+             ((= count 1) b) 
+             ((= count 2) a)
+             (else (f-item (+ a b c) a b (- count 1)))
+        )
+    )
+    (f-item 2 1 0 n)
+)
+(define (check n)
+    (if (= (f1 n) (f n)) 1
+    0))
+(check 0)
+(check 1)
+(check 2)
+(check 6)
+(check 7)
