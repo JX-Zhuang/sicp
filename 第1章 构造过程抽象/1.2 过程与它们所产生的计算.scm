@@ -93,3 +93,15 @@
 (check 2)
 (check 6)
 (check 7)
+(define (expt1 b n)
+    (if (= n 0)
+        1
+        (* b (expt1 b (- n 1)))))
+(define (expt b n)
+    (define (expt-iter b counter product)
+        (if (= counter 0)
+            product
+            (expt-iter b (- counter 1) (* b product))))
+    (expt-iter b n 1)
+)
+(expt 2 3)
