@@ -12,9 +12,9 @@
 (sum-cubes 1 10)
 (define (identity x)
     x)
-(define (sum-integers a b)
-    (sum identity a inc b))
-(sum-integers 1 10)
+; (define (sum-integers a b)
+;     (sum identity a inc b))
+; (sum-integers 1 10)
 (define (pi-sum a b)
     (define (pi-iterm x)
         (/ 1.0 (* x (+ x 2))))
@@ -28,3 +28,14 @@
     dx))
 (integral cube 0 1 0.01)
 (integral cube 0 1 0.001)
+
+; 1.30
+(define (sum1 term a next b)
+    (define (iter a result)
+        (if (> a b)
+            result
+            (iter (next a) (+ (term a) result))))
+        (iter a 0))
+(define (sum-integers a b)
+(sum1 identity a inc b))
+(sum-integers 1 10) 
