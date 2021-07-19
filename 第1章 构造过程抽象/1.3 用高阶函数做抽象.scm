@@ -39,3 +39,49 @@
 (define (sum-integers a b)
 (sum1 identity a inc b))
 (sum-integers 1 10) 
+
+; 1.31
+(define (product1 term a next b)
+    (if (> a b)
+        1
+        (* (term a)
+            (product1 term (next a) next b))))
+(define (product term a next b)
+    (define (iter a result)
+        (if (> a b)
+            result
+            (iter (next a) (* (term a) result))))
+        (iter a 1))
+(product (lambda (x) x) 1 (lambda (i) (+ i 1)) 10)
+(define (numer-term i)
+    (cond ((= i 1)
+        2)
+        ((even? i)
+        (+ i 2))
+        (else
+        (+ i 1))))
+(define (denom-term i)
+    (if (odd? i)
+        (+ i 2)
+        (+ i 1)))
+(define (pi n)
+    (* 4 
+        (exact->inexact
+            (/ 
+                (product numer-term 
+                    1 
+                    (lambda (x) (+ x 1)) 
+                    n)
+                (product denom-term
+                    1 
+                    (lambda (x) (+ x 1)) 
+                    n)
+            )
+        )
+    )
+)
+(pi 1)
+(pi 10)
+(pi 100)
+(pi 1000)
+(pi 10000)
