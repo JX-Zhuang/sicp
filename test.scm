@@ -10,4 +10,3 @@
 
 (sum-of-squares 3 4)
 
-
