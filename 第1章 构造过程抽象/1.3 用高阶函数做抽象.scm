@@ -88,4 +88,45 @@
 ; 1.34
 (define (f g)
     (g 2))
-(f f)
+; (f f)
+; 1.37
+(define (cont-frac1 N D k)
+    (define (cf i)
+        (if (= i k)
+            (/ (N i) (D i))
+            (/ (N i)
+                (+ (D i) (cf (+ i 1))))))
+    (cf 1))
+
+(define (cont-frac N D k)
+    (define (iter i result)
+        (if (= i 0)
+            result
+            (iter (- i 1) (/ (N i) (+ (D i) result)))))
+    (iter (- k 1) (/ (N k) (D k))))
+
+(define (golden-ratio k)
+    (+ 1
+       (cont-frac (lambda (i) 1.0)
+                  (lambda (i) 1.0)
+                  k)))
+(golden-ratio 1)
+(golden-ratio 10)
+(golden-ratio 11)
+; 1.39
+(define (tan-cf x k)
+    (define (N i)
+        (if (= i 1) 
+            x
+            (- (square x))))
+    (define (D i)
+        (- (* i 2) 1))
+   (exact->inexact (cont-frac N D k)))
+(tan 10)
+(tan-cf 10 100)
+(tan 25)
+(tan-cf 25 100)
+
+(define (average-damp f)
+    (lambda (x) (/ (+ x (f x)) 2)))
+((average-damp square) 10)
