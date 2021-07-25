@@ -176,3 +176,20 @@
 (define (inc x)
     (+ x 1))
 (((double (double double)) inc) 5)
+; 1.42
+(define (compose f g)
+    (lambda (x) (f (g x))))
+((compose square inc) 6)
+; 1.43
+(define (repeated f n)
+    (if (= n 1)
+        f
+    (compose f 
+        (repeated f (- n 1)))))
+(define (repeated1 f n)
+    (define (iter repeated-f x)
+        (if (= x n)
+            repeated-f
+        (iter (compose f repeated-f) (+ x 1))))
+    (iter f 1))
+((repeated1 square 2) 5)
