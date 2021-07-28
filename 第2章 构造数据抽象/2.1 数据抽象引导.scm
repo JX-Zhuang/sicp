@@ -142,5 +142,18 @@
 (define zero (lambda (f) (lambda (x) x)))
 (define (add-1 n)
     (lambda (f) (lambda (x) (f ((n f) x)))))
+(add-1 zero)
+(add-1 (lambda (f) (lambda (x) x)))
+((lambda (n) 
+    (lambda (f) 
+        (lambda (x) 
+        (f ((n f) x)))))
+  (lambda (f) 
+    (lambda (x) 
+        x)))
+(define one 
+    (lambda (f) 
+        (lambda (x) 
+            (f x))))
 
 ; 2.1.4 扩展练习：区间算术
