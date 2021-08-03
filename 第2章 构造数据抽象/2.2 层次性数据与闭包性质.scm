@@ -138,3 +138,24 @@
         tree))
 (scale-tree (list 1 (list 2 (list 3 4) 5) (list 6 7)) 10)
 
+; 练习 2.30
+(define (square-list tree)
+    (cond ((null? tree) ())
+        ((not (pair? tree)) (* tree tree))
+        (else (cons (square-list (car tree))
+                (square-list (cdr tree))))))
+(square-list (list 1 (list 2 (list 3 4) 5) (list 6 7)))
+
+; 练习 2.31
+(define (tree-map f tree)
+    (cond ((null? tree) ())
+        ((not (pair? tree)) (f tree))
+        (else (cons (tree-map f (car tree))
+            (tree-map f (cdr tree))))))
+(tree-map square (list (list 1 2) (list 3 4)))
+
+; 练习 2.32
+
+; 2.2.3 序列作为一种约定的界面
+
+(map square (list 1 2 3 4 5))
