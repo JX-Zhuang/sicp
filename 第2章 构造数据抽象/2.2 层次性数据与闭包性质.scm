@@ -87,3 +87,54 @@
 (for-each (lambda (x) (newline) (display x)) (list 57 321 88))
 
 ; 2.2.2 层次性结构
+(define x (cons (list 1 2) (list 3 4)))
+(length x)
+(define (count-leaves x)
+    (cond ((null? x) 0)
+          ((not (pair? x)) 1)
+          (else (+ (count-leaves (car x))
+                   (count-leaves (cdr x))))))
+(count-leaves x)
+
+; 练习 2.27
+(define x (list (list 1 2) (list 3 4)))
+(reverse x)
+(define (deep-reverse tree)
+    (cond ((null? tree) 
+            ())
+          ((not (pair? tree))
+            tree)
+          (else 
+            (reverse (list (deep-reverse (car tree)) 
+                        (deep-reverse (car (cdr tree))))))))
+(deep-reverse x)
+
+; 练习 2.28
+(define x (list (list 1 2) (list 3 4)))
+(define (fringe tree)
+    (cond ((null? tree) 
+            ())
+          ((not (pair? tree))
+            (list tree))
+          (else 
+            (append (fringe (car tree))
+                    (fringe (cadr tree))))))
+(fringe x)
+
+; 练习 2.29
+
+; 对树的映射
+(define (scale-tree tree factor)
+    (cond ((null? tree) ())
+        ((not (pair? tree)) (* tree factor))
+        (else (cons (scale-tree (car tree) factor)
+                (scale-tree (cdr tree) factor)))))
+
+(define (scale-tree tree factor)
+    (map (lambda (sub-tree) 
+        (if (pair? sub-tree)
+            (scale-tree sub-tree factor)
+            (* sub-tree factor)))
+        tree))
+(scale-tree (list 1 (list 2 (list 3 4) 5) (list 6 7)) 10)
+
