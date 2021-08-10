@@ -63,11 +63,11 @@
 (same-parity 1)
 
 ; 对表对映射
-(define (map proc items)
-    (if (null? items)
-        items
-        (cons (proc (car items))
-            (map proc (cdr items)))))
+; (define (map proc items)
+;     (if (null? items)
+;         items
+;         (cons (proc (car items))
+;             (map proc (cdr items)))))
 (map abs (list -10 2.5 -11.6 17))
 (map (lambda (x) (* x x)) (list 1 2 3 4))
 ; 练习 2.21
@@ -167,11 +167,11 @@
 (accumulate + 0 (list 1 2 3 4 5))
 
 ; 练习 2.33
-(define (map p sequence)
-    (accumulate (lambda (x y) 
-                    (cons (p x) y)) 
-                () 
-    sequence))
+; (define (map p sequence)
+;     (accumulate (lambda (x y) 
+;                     (cons (p x) y)) 
+;                 () 
+;     sequence))
 (map square (list 1 2 3))
 (define (append seq1 seq2)
     (accumulate cons seq2 seq1))
@@ -187,3 +187,53 @@
                     0 
                     coefficient-sequence))
 (horner-eval 2 (list 1 3 0 5 0 1))
+
+; 练习 2.35
+(define (count-leaves tree)
+    (accumulate + 0 (map (lambda (sub-tree) 
+        (if (pair? sub-tree)
+        (count-leaves sub-tree)
+        1)
+    ) tree)))
+(count-leaves (list (list 1 2) (list 3 4)))
+(count-leaves (list (list 1 (list 2 3)) (list (list 4 5) (list 6 7))))
+
+; 练习 2.36
+(define (car-n seqs)
+    (map car seqs))
+(define (cdr-n seqs)
+    (map cdr seqs))
+(define (accumulate-n op init seqs)
+    (if (null? (car seqs))
+        ()
+        (cons (accumulate op init (car-n seqs))
+              (accumulate-n op init (cdr-n seqs)))))
+(define s (list (list 1 2 3)
+                      (list 4 5 6)
+                      (list 7 8 9)
+                      (list 10 11 12)))
+ (accumulate-n + 0 s)
+
+;  练习 2.37
+(define m (list (list 1 2 3 4)
+                      (list 4 5 6 6)
+                      (list 6 7 8 9)))
+(define v (list 1 2 3 4))                    
+
+(define (dot-product v w)
+    (accumulate + 0 (map * v w)))
+
+(define (matrix-*-vector m v)
+    (map (lambda (col) 
+            (dot-product col v))
+    m))
+(matrix-*-vector m v)
+
+(define (transpose mat)
+    (accumulate-n cons '() mat))
+(transpose m)
+
+(define (matrix-*-matrix m n)
+    (let ((cols (transpose n)))
+        (map (lambda (v) (matrix-*-vector cols v)) m)))
+(matrix-*-matrix m (transpose m))
