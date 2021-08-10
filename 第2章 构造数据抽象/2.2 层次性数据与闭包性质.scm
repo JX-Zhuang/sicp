@@ -237,3 +237,24 @@
     (let ((cols (transpose n)))
         (map (lambda (v) (matrix-*-vector cols v)) m)))
 (matrix-*-matrix m (transpose m))
+
+; 练习 2.38
+(define fold-right accumulate)
+(define (fold-left op initial sequence)
+    (define (iter result rest)
+        (if (null? rest)
+            result
+            (iter (op result (car rest))
+                  (cdr rest))))
+    (iter initial sequence))
+
+; 练习 2.39
+(define (reverse sequence)
+    (fold-left (lambda (x y) (cons y x)) () sequence))
+
+
+(define (reverse sequence)
+    (fold-right (lambda (x y) (append y (list x))) () sequence))
+(reverse (list 1 2 3 4))
+
+; 2.2.4 实例：一个图形语言
