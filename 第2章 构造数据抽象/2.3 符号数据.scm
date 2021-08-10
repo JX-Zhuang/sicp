@@ -34,3 +34,8 @@
 (equal? 'symbol 'another-symbol)
 (equal? (list 'a 'b 'c) (list 'a 'b 'c))
 (equal? (list 'a) (list 'a 'b 'c))
+
+; 练习 2.55
+(car ''abracadabra)
+
+; 2.3.2 实例：符号求导
