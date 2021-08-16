@@ -122,3 +122,81 @@
                 (iter remain-element
                       (cons current-element result))))))
 (union-set `(1 2 3) `(3 4 5 6))
+
+; 集合作为排序的表
+(define (element-of-set? x set)
+    (cond ((null? set) false)
+        ((= x (car set)) true)
+        ((<x (car set)) false)
+        (else (element-of-set? x (cdr set)))))
+
+(define (intersection-set set1 set2)
+    (if (or (null? set1) (null? set2))
+        `()
+        (let ((x1 (car set1)) (x2 (car set2)))
+            (cond ((= x1 x2)
+                   (cons x1
+                         (intersection-set (cdr set1)
+                                           (cdr set2))))
+                  ((< x1 x2)
+                    (intersection-set (cdr set1) set2))
+                  ((< x2 x1)
+                    (intersection-set set1 (cdr set2)))))))
+
+; 练习 2.61
+; 练习 2.62
+; 集合作为二叉树
+(define (entry tree) (car tree))
+(define (left-branch tree) (cadr tree))
+(define (right-branch tree) (caddr tree))
+(define (make-tree entry left right)
+    (list entry left right))
+(define (element-of-set? x set)
+    (cond ((null? set) false)
+    ((= x (entry set)) true)
+     ((< x (entry set))
+      (element-of-set? x (left-branch set)))
+     ((> x (entry set))
+      (element-of-set? x (right-branch set)))))
+
+(define (adjoin-set x set)
+    (cond ((null? set) (make-tree x `() `()))
+          ((= x (entry set)) set)
+          ((< x (entry set))
+            (make-tree (entry set)
+                       (adjoin-set x (left-branch set))
+                       (right-branch set)))
+          ((> x (entry set))
+            (make-tree (entry set)
+                       (left-branch set)
+                       (adjoin-set x (right-branch set))))))
+
+; 练习 2.63
+; 练习 2.64
+; 练习 2.65
+; 集合与信息检索
+; 练习 2.66
+
+; 2.3.4 实例：Huffman编码树
+(define (make-leaf symbol weight)
+    (list `leaf symbol weight))
+(define (leaf? object)
+    (eq? (car object) `leaf))
+(define (symbol-leaf x) (cadr x))
+(define (weight-leaf x) (caddr x))
+
+(define (make-code-tree left right)
+    (list left
+          right
+          (append (symbols left) (symbols right))
+          (+ (weight left) (weight right))))
+(define (left-branch tree) (car tree))
+(define (right-branch tree) (cadr tree))
+(define (symbols tree)
+    (if (leaf? tree)
+        (list (symbol-leaf tree))
+        (caddr tree)))
+(define (weight tree)
+    (if (leaf? tree)
+        (weight-leaf tree)
+        (caddr tree)))
