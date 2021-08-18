@@ -108,3 +108,32 @@
     (make-from-mag-ang-polar r a))
 
 ; 2.4.3 数据导向的程序设计和可加性
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if proc
+          (apply proc (map contents args))
+          (error
+            "No method for these types -- APPLY-GENERIC"
+            (list op type-tags))))))
+            
+; 消息传递
+(define (make-from-real-imag x y)
+    (define (dispatch op)
+        (cond ((eq? op `real-part) x)
+              ((eq? op `imag-part) y)
+              ((eq? op `magnitude)
+                (sqrt (+ (square x) (square y))))
+              ((eq? op `angle) (atan y x))
+              (else
+                (error "Make-from-real-imag error" op))))
+    dispatch)
+
+; 2.5 带有通用型操作的系统
+
+; 2.5.1 通用型算术运算
+
+(define (add x y) (apply-generic `add x y))
+(define (sub x y) (apply-generic `sub x y)) 
+(define (mul x y) (apply-generic `mul x y))
+(define (div x y) (apply-generic `div x y))
