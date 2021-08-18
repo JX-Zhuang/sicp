@@ -116,7 +116,7 @@
           (error
             "No method for these types -- APPLY-GENERIC"
             (list op type-tags))))))
-            
+
 ; 消息传递
 (define (make-from-real-imag x y)
     (define (dispatch op)
@@ -137,3 +137,7 @@
 (define (sub x y) (apply-generic `sub x y)) 
 (define (mul x y) (apply-generic `mul x y))
 (define (div x y) (apply-generic `div x y))
+
+; 2.5.2 不同类型数据的组合
+
+; 类型的层次结构
