@@ -141,3 +141,13 @@
 ; 2.5.2 不同类型数据的组合
 
 ; 类型的层次结构
+
+; 2.5.3 实例：符号代数
+
+; 多项式算术
+(define (add-poly p1 p2)
+    (if (same-variable? (variable p1) (variable p2))
+        (make-poly (variable p1)
+                   (add-terms (term-list p1)
+                              (term-list p2)))
+        (error "error add-ploy" (list p1 p2))))
